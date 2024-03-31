@@ -80,6 +80,7 @@ group :development, :test do
   gem 'rubocop-performance'
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
+  gem 'foreman'
 end
 
 group :development do

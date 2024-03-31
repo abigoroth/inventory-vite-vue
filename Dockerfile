@@ -7,9 +7,11 @@ FROM ruby:$RUBY_VERSION-$IMAGE_FLAVOUR AS base
 ARG NODE_VERSION
 ARG YARN_VERSION
 ARG BUNDLER_VERSION
-
 RUN apk add --update \
-  git \
+  git
+
+RUN git version 2.25.1
+RUN apk add --update \
   postgresql-dev \
   tzdata \
   nodejs=$NODE_VERSION \
@@ -31,7 +33,7 @@ RUN apk add --update build-base
 RUN mkdir /app
 WORKDIR /app
 
-COPY .ruby-version Gemfile Gemfile.lock ./
+COPY .ruby-version Gemfile ./
 
 # Install gems
 ARG RAILS_ENV
@@ -39,12 +41,13 @@ ENV RAILS_ENV="${RAILS_ENV}" \
     NODE_ENV="development"
 
 # Install gems
-RUN bundle config set --local frozen 'true' \
-    && bundle install --no-cache --jobs "$(nproc)" --retry "$(nproc)" \
+RUN bundle install --no-cache --jobs "$(nproc)" --retry "$(nproc)" \
     && rm -rf /usr/local/bundle/config \
     && rm -rf /usr/local/bundle/cache/*.gem \
     && find /usr/local/bundle/gems/ -name "*.c" -delete \
     && find /usr/local/bundle/gems/ -name "*.o" -delete
+
+RUN gem install foreman
 
 COPY package.json yarn.lock ./
 
@@ -53,7 +56,7 @@ RUN yarn install --frozen-lockfile
 
 COPY . ./
 
-RUN SECRET_KEY_BASE=irrelevant DEVISE_JWT_SECRET_KEY=irrelevant bundle exec rails assets:precompile
+RUN SECRET_KEY_BASE=irrelevant DEVISE_JWT_SECRET_KEY=irrelevant VITE_RUBY_SKIP_COMPATIBILITY_CHECK=true bundle exec rails assets:precompile
 
 ######################################################################
 
@@ -90,4 +93,4 @@ COPY --chown=app --from=dependencies /app/public/ /app/public/
 COPY --chown=app . ./
 
 # Launch the server
-CMD ["rails", "s"]
+# CMD ["rails", "s"]
