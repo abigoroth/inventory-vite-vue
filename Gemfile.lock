@@ -432,7 +432,7 @@ DEPENDENCIES
   sidekiq
   simplecov
   tzinfo-data
-  vite_rails (<= 3.2.2)
+  vite_rails
   web-console
   webdrivers
 

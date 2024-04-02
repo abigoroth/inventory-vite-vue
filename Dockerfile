@@ -47,9 +47,7 @@ RUN bundle install --no-cache --jobs "$(nproc)" --retry "$(nproc)" \
     && find /usr/local/bundle/gems/ -name "*.c" -delete \
     && find /usr/local/bundle/gems/ -name "*.o" -delete
 
-RUN gem install foreman
-
-COPY package.json yarn.lock ./
+COPY package.json ./
 
 # Install npm packages
 RUN yarn install --frozen-lockfile

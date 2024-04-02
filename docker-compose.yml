@@ -71,6 +71,7 @@ services:
 #    command: "ls docker -la"
     volumes:
       - .:/app
+#      - ./node_modules:/app/node_modules
     deploy:
       resources:
         limits:
@@ -78,8 +79,11 @@ services:
           memory: "${DOCKER_WEB_MEMORY:-0}"
     ports:
       - "${DOCKER_WEB_PORT_FORWARD:-127.0.0.1:3000}:${PORT:-3000}"
+      - "3036:3036"
     profiles: ["web"]
     tty: true
+    environment:
+      VITE_RUBY_HOST: 0.0.0.0
 
 
   worker:

@@ -3,6 +3,12 @@ import RubyPlugin from 'vite-plugin-ruby';
 import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
+  server: {
+    host: '0.0.0.0',
+    watch: {
+      usePolling: true
+    },
+  },
   resolve: {
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
   },
