@@ -24,5 +24,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## TODO
 
-- [ ] automat deploy process using capistrano
-- [ ] Add cypress (e2e testing)
+- [ ] ruby vite compatibility
